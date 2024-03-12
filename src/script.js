@@ -20,10 +20,12 @@ const sphereParams = {
 };
 
 const sphereFolder = gui.addFolder("Sphere");
-sphereFolder.add(sphereParams, "radius", 0.2, 0.31, 0.001).name("Radius");
-// .onChange(() => {
-//   updateSphere();
-// });
+sphereFolder
+  .add(sphereParams, "radius", 0.2, 0.31, 0.001)
+  .name("Radius")
+  .onChange(() => {
+    updateSphere();
+  });
 
 const cylinderMediumParams = {
   radius: 0.5,
@@ -97,27 +99,28 @@ const cylinderSmall = new THREE.Mesh(
 );
 
 cylinderSmall.rotateX(300);
+
 cylinderSmall.position.y = cylinderSmallParams.radius / 2;
 
-let previousRadius = cylinderSmallParams.radius;
+let cylinderSmallPreviousRadius = cylinderSmallParams.radius;
 
 function updateCylinderSmall() {
   const newRadius = cylinderSmallParams.radius;
   cylinderSmall.position.y = newRadius / 2;
-  const radiusChange = Math.abs(newRadius - previousRadius);
+  const radiusChange = Math.abs(newRadius - cylinderSmallPreviousRadius);
 
   const moveFactor = radiusChange * 100;
 
-  if (newRadius > previousRadius) {
-    sphere.position.y += moveFactor * 0.01;
-    cylinderMedium.position.y += moveFactor * 0.01;
-    cube.position.y += moveFactor * 0.01;
-    cone.position.y += moveFactor * 0.01;
-  } else if (newRadius < previousRadius) {
-    sphere.position.y -= moveFactor * 0.01;
-    cylinderMedium.position.y -= moveFactor * 0.01;
-    cube.position.y -= moveFactor * 0.01;
-    cone.position.y -= moveFactor * 0.01;
+  if (newRadius > cylinderSmallPreviousRadius) {
+    sphere.position.y += moveFactor * 0.015;
+    cylinderMedium.position.y += moveFactor * 0.015;
+    cube.position.y += moveFactor * 0.015;
+    cone.position.y += moveFactor * 0.015;
+  } else if (newRadius < cylinderSmallPreviousRadius) {
+    sphere.position.y -= moveFactor * 0.015;
+    cylinderMedium.position.y -= moveFactor * 0.015;
+    cube.position.y -= moveFactor * 0.015;
+    cone.position.y -= moveFactor * 0.015;
   }
 
   cylinderSmall.geometry.dispose();
@@ -128,8 +131,7 @@ function updateCylinderSmall() {
     32
   );
 
-  previousRadius = newRadius;
-  console.log(newRadius);
+  cylinderSmallPreviousRadius = newRadius;
 }
 
 const cylinderMedium = new THREE.Mesh(
@@ -170,53 +172,17 @@ const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.3, 16, 16),
   sphereMaterial
 );
-sphere.position.y = 1.05;
+// sphere.position.y = 1.05;
 
-// function updateSphere() {
-//   sphere.geometry.dispose();
-//   sphere.geometry = new THREE.SphereGeometry(sphereParams.radius, 32, 32);
+sphere.position.y = sphereParams.radius / 2 + cylinderSmallPreviousRadius + 0.5;
 
-//   let deltaY;
-//   let scaleChange = 1;
-
-//   if (sphereParams.radius > previousSphereRadius) {
-//     deltaY = 0.05;
-//     scaleChange = 1.005;
-//   } else if (sphereParams.radius < previousSphereRadius) {
-//     deltaY = -0.05;
-//     scaleChange = 0.995;
-//   } else {
-//     deltaY = 0;
-//   }
-
-//   cube.geometry.dispose();
-//   cube.geometry = new THREE.BoxGeometry(
-//     boxParams.size * scaleChange,
-//     boxParams.size * scaleChange,
-//     boxParams.size * scaleChange
-//   );
-
-//   cone.geometry.dispose();
-//   const newConeRadius = coneParams.initialRadius * scaleChange;
-//   const newConeHeight = coneParams.initialHeight * scaleChange;
-//   cone.geometry = new THREE.ConeGeometry(newConeRadius, newConeHeight, 32);
-
-//   sphere.position.y += deltaY;
-//   cylinderSmall.position.y += deltaY;
-//   cylinderMedium.position.y += deltaY;
-//   cube.position.y += deltaY;
-//   cone.position.y += deltaY;
-
-//   previousSphereRadius = sphereParams.radius;
-// }
+function updateSphere() {}
 
 const cube = new THREE.Mesh(
   new THREE.BoxGeometry(0.25, 0.25, 0.25),
   cubeMaterial
 );
 cube.position.y = 1.47;
-
-let previousCubeSize = boxParams.size;
 
 // function updateCube() {
 //   let sizeChange = boxParams.size - previousCubeSize;
