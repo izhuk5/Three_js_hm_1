@@ -107,21 +107,16 @@ let cylinderSmallPreviousRadius = cylinderSmallParams.radius;
 function updateCylinderSmall() {
   const newRadius = cylinderSmallParams.radius;
   cylinderSmall.position.y = newRadius / 2;
-  const radiusChange = Math.abs(newRadius - cylinderSmallPreviousRadius);
 
-  const moveFactor = radiusChange * 100;
+  const radiusDifference = newRadius - cylinderSmallPreviousRadius;
+  const moveFactor = radiusDifference * 100; // Теперь moveFactor может быть отрицательным или положительным
 
-  if (newRadius > cylinderSmallPreviousRadius) {
-    sphere.position.y += moveFactor * 0.015;
-    cylinderMedium.position.y += moveFactor * 0.015;
-    cube.position.y += moveFactor * 0.015;
-    cone.position.y += moveFactor * 0.015;
-  } else if (newRadius < cylinderSmallPreviousRadius) {
-    sphere.position.y -= moveFactor * 0.015;
-    cylinderMedium.position.y -= moveFactor * 0.015;
-    cube.position.y -= moveFactor * 0.015;
-    cone.position.y -= moveFactor * 0.015;
-  }
+  // Применяем moveFactor напрямую без умножения на 0.015,
+  // так как moveFactor уже включает в себя направление изменения (положительное или отрицательное)
+  sphere.position.y += moveFactor * 0.015;
+  cylinderMedium.position.y += moveFactor * 0.015;
+  cube.position.y += moveFactor * 0.015;
+  cone.position.y += moveFactor * 0.015;
 
   cylinderSmall.geometry.dispose();
   cylinderSmall.geometry = new THREE.CylinderGeometry(
@@ -132,6 +127,7 @@ function updateCylinderSmall() {
   );
 
   cylinderSmallPreviousRadius = newRadius;
+  console.log(cylinderSmallPreviousRadius);
 }
 
 const cylinderMedium = new THREE.Mesh(
