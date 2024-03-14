@@ -109,14 +109,13 @@ function updateCylinderSmall() {
   cylinderSmall.position.y = newRadius / 2;
 
   const radiusDifference = newRadius - cylinderSmallPreviousRadius;
-  const moveFactor = radiusDifference * 100; // Теперь moveFactor может быть отрицательным или положительным
+  const moveFactor = radiusDifference * 100;
 
-  // Применяем moveFactor напрямую без умножения на 0.015,
-  // так как moveFactor уже включает в себя направление изменения (положительное или отрицательное)
-  sphere.position.y += moveFactor * 0.015;
-  cylinderMedium.position.y += moveFactor * 0.015;
-  cube.position.y += moveFactor * 0.015;
-  cone.position.y += moveFactor * 0.015;
+  const objectsToUpdate = [sphere, cylinderMedium, cube, cone];
+
+  objectsToUpdate.forEach(object => {
+    object.position.y += moveFactor * 0.015;
+  });
 
   cylinderSmall.geometry.dispose();
   cylinderSmall.geometry = new THREE.CylinderGeometry(
