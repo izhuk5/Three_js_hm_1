@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 
 // Debug
+// Ihor)
+
 const gui = new GUI();
 
 const cylinderSmallParams = {
