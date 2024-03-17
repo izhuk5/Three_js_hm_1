@@ -3,7 +3,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 
 // Debug
-// Ihor)
 
 const gui = new GUI();
 
@@ -108,30 +107,30 @@ let cylinderSmallPreviousRadius = cylinderSmallParams.radius;
 let spherePreviousRadius = sphereParams.radius;
 
 function updateCylinderSmall() {
-  const newRadius = cylinderSmallParams.radius;
-  cylinderSmall.position.y = newRadius / 2;
+  const newCylinderSmallRadius = cylinderSmallParams.radius;
+  cylinderSmall.position.y = newCylinderSmallRadius / 2;
 
   cylinderSmall.geometry.dispose();
   cylinderSmall.geometry = new THREE.CylinderGeometry(
-    newRadius,
-    newRadius,
+    newCylinderSmallRadius,
+    newCylinderSmallRadius,
     0.2,
     32
   );
 
-  const radiusDifference = newRadius - cylinderSmallPreviousRadius;
+  let radiusDifference = newCylinderSmallRadius - cylinderSmallPreviousRadius;
   sphereParams.radius -= radiusDifference;
 
-  sphere.position.y = sphereParams.radius / 2 + newRadius + 0.5 - 0.1;
+  sphere.position.y =
+    sphereParams.radius / 2 + newCylinderSmallRadius + 0.5 - 0.1;
 
   sphere.geometry.dispose();
   sphere.geometry = new THREE.SphereGeometry(sphereParams.radius, 16, 16);
 
-  cylinderSmallPreviousRadius = newRadius;
-  spherePreviousRadius = sphereParams.radius;
+  cylinderMedium.position.y = cylinderMediumParams.radius / 2 + 1.1;
 
-  console.log(`Малый радиус цилиндра: ${newRadius}`);
-  console.log(`Радиус сферы: ${sphereParams.radius}`);
+  cylinderSmallPreviousRadius = newCylinderSmallRadius;
+  spherePreviousRadius = sphereParams.radius;
 }
 
 const cylinderMedium = new THREE.Mesh(
