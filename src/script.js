@@ -16,7 +16,7 @@ cylinderSmallFolder
   .onChange(updateCylinderSmall);
 
 const sphereParams = {
-  radius: 0.1,
+  radius: 0.3,
 };
 
 const sphereFolder = gui.addFolder("Sphere");
@@ -103,19 +103,11 @@ cylinderSmall.rotateX(300);
 cylinderSmall.position.y = cylinderSmallParams.radius / 2;
 
 let cylinderSmallPreviousRadius = cylinderSmallParams.radius;
+let spherePreviousRadius = sphereParams.radius;
 
 function updateCylinderSmall() {
   const newRadius = cylinderSmallParams.radius;
   cylinderSmall.position.y = newRadius / 2;
-
-  const radiusDifference = newRadius - cylinderSmallPreviousRadius;
-  const moveFactor = radiusDifference * 100;
-
-  const objectsToUpdate = [sphere, cylinderMedium, cube, cone];
-
-  objectsToUpdate.forEach(object => {
-    object.position.y += moveFactor * 0.015;
-  });
 
   cylinderSmall.geometry.dispose();
   cylinderSmall.geometry = new THREE.CylinderGeometry(
@@ -125,8 +117,19 @@ function updateCylinderSmall() {
     32
   );
 
+  const radiusDifference = newRadius - cylinderSmallPreviousRadius;
+  sphereParams.radius -= radiusDifference;
+
+  sphere.position.y = sphereParams.radius / 2 + newRadius + 0.5 - 0.1;
+
+  sphere.geometry.dispose();
+  sphere.geometry = new THREE.SphereGeometry(sphereParams.radius, 16, 16);
+
   cylinderSmallPreviousRadius = newRadius;
-  console.log(cylinderSmallPreviousRadius);
+  spherePreviousRadius = sphereParams.radius;
+
+  console.log(`Малый радиус цилиндра: ${newRadius}`);
+  console.log(`Радиус сферы: ${sphereParams.radius}`);
 }
 
 const cylinderMedium = new THREE.Mesh(
@@ -135,7 +138,7 @@ const cylinderMedium = new THREE.Mesh(
 );
 cylinderMedium.position.y = 1.35;
 
-let previousCylinderMediumRadius = cylinderMediumParams.radius;
+// let previousCylinderMediumRadius = cylinderMediumParams.radius;
 
 // function updateCylinderMedium() {
 //   let radiusChange = cylinderMediumParams.radius - previousCylinderMediumRadius;
@@ -164,12 +167,12 @@ let previousCylinderMediumRadius = cylinderMediumParams.radius;
 // }
 
 const sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(0.3, 16, 16),
+  new THREE.SphereGeometry(sphereParams.radius, 16, 16),
   sphereMaterial
 );
 // sphere.position.y = 1.05;
 
-sphere.position.y = sphereParams.radius / 2 + cylinderSmallPreviousRadius + 0.5;
+sphere.position.y = sphereParams.radius / 2 + cylinderSmallPreviousRadius + 0.4;
 
 function updateSphere() {}
 
