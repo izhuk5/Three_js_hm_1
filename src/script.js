@@ -12,7 +12,7 @@ const cylinderSmallParams = {
 
 const cylinderSmallFolder = gui.addFolder("Cylinder Small");
 cylinderSmallFolder
-  .add(cylinderSmallParams, "radius", 0.3, 1, 0.01)
+  .add(cylinderSmallParams, "radius", 0.3, 0.6, 0.01)
   .name("Radius")
   .onChange(updateCylinderSmall);
 
@@ -34,7 +34,7 @@ const cylinderMediumParams = {
 
 const cylinderMediumFolder = gui.addFolder("Cylinder Medium");
 cylinderMediumFolder
-  .add(cylinderMediumParams, "radius", 0.1, 1, 0.01)
+  .add(cylinderMediumParams, "radius", 0.15, 0.6, 0.01)
   .name("Radius")
   .onChange(updateCylinderMedium);
 
@@ -44,7 +44,7 @@ const cubeParams = {
 
 const boxFolder = gui.addFolder("Cube");
 boxFolder
-  .add(cubeParams, "size", 0.01, 1, 0.01)
+  .add(cubeParams, "size", 0.15, 0.5, 0.01)
   .name("Cube size")
   .onChange(() => {
     updateCube();
@@ -56,7 +56,7 @@ const coneParams = {
 
 const coneFolder = gui.addFolder("Cone");
 coneFolder
-  .add(coneParams, "radius", 0.2, 2, 0.01)
+  .add(coneParams, "radius", 0.2, 0.3, 0.01)
   .name("Radius")
   .onChange(() => {
     updateCone();
@@ -119,11 +119,11 @@ function updateCylinderSmall() {
     32
   );
 
-  cylinderSmall.position.y += radiusDifference / 2;
-  sphere.position.y += 1.5 * radiusDifference;
-  cylinderMedium.position.y += 1.5 * radiusDifference;
-  cube.position.y += 1.5 * radiusDifference;
-  cone.position.y += 1.5 * radiusDifference;
+  cylinderSmall.position.y += radiusDifference;
+  sphere.position.y += 2 * radiusDifference;
+  cylinderMedium.position.y += 2 * radiusDifference;
+  cube.position.y += 2 * radiusDifference;
+  cone.position.y += 2 * radiusDifference;
 
   cylinderSmallPreviousRadius = newCylinderSmallRadius;
 }
@@ -179,7 +179,7 @@ const cube = new THREE.Mesh(
   cubeMaterial
 );
 
-cube.position.y = 1.47;
+cube.position.y = 1.482;
 
 let cubePreviousSize = cubeParams.size;
 
@@ -197,7 +197,7 @@ function updateCube() {
 }
 
 const cone = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.2, 32), coneMaterial);
-cone.position.y = 1.7;
+cone.position.y = 1.71;
 cone.rotateX(Math.PI);
 
 let conePreviousRadius = coneParams.radius;
@@ -215,7 +215,7 @@ function updateCone() {
 }
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
 plane.rotation.x = -Math.PI * 0.5;
-plane.position.y = -0.5;
+plane.position.y = -0.25;
 
 scene.add(plane, sphere, cube, cone, cylinderSmall, cylinderMedium);
 
